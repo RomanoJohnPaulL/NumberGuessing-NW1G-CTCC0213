@@ -1,0 +1,52 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class NumberGuessingGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        // Define the range
+        int lowerBound = 1;
+        int upperBound = 100;
+        int numberToGuess = random.nextInt(upperBound - lowerBound + 1) + lowerBound;
+        int numberOfTries = 0;
+        int maxAttempts = 10;
+        boolean hasGuessedCorrectly = false;
+
+        // Set a 1-minute timer
+        long startTime = System.currentTimeMillis();
+        long timeLimit = 1 * 60 * 1000; // 1 minutes in milliseconds
+
+        System.out.println("Welcome to the Number Guessing Game!");
+        System.out.println("I have chosen a number between " + lowerBound + " to " + upperBound + ". Try to guess it!");
+        System.out.println("You have 1 minutes to complete the game.");
+
+        while (numberOfTries < maxAttempts && !hasGuessedCorrectly && System.currentTimeMillis() - startTime < timeLimit) {
+            System.out.print("Enter your guess: ");
+            int userGuess = scanner.nextInt();
+            numberOfTries++;
+
+            if (userGuess < lowerBound || userGuess > upperBound) {
+                System.out.println("Your guess is out of bounds. Please try a number between " + lowerBound + " and " + upperBound + ".");
+            } else if (userGuess < numberToGuess) {
+                System.out.println("Too low. Please Try again.");
+            } else if (userGuess > numberToGuess) {
+                System.out.println("Too high. Please Try again.");
+            } else {
+                hasGuessedCorrectly = true;
+                System.out.println("Congratulations! You've guessed the number in " + numberOfTries + " tries!");
+            }
+        }
+
+        if (hasGuessedCorrectly) {
+            System.out.println("You've guessed the correct number you are an amazing person!");
+        } else if (System.currentTimeMillis() - startTime >= timeLimit) {
+            System.out.println("Sorry, you've run out of time better luck next time!. The correct number was: " + numberToGuess);
+        } else {
+            System.out.println("Sorry, you've run out of attempts try harder!. The correct number was: " + numberToGuess);
+        }
+
+        scanner.close();
+    }
+}
